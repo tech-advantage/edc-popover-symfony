@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": "^7.1.3"
+        "php": "^7.1.3",
+        "florianwolters/component-core-stringutils": "^0.4.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.0"
