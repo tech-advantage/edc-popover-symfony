@@ -7,6 +7,21 @@ use FlorianWolters\Component\Core\StringUtils;
 
 class UrlUtil
 {
+    private $serverUrl;
+    private $helpContext;
+
+    /**
+     * UrlUtil constructor.
+     * @param string $serverUrl the help server url
+     * @param string $helpContext the help context
+     */
+    public function __construct(string $serverUrl, string $helpContext)
+    {
+        $this->serverUrl = $serverUrl;
+        $this->helpContext = $helpContext;
+    }
+
+
     /**
      * @param string $publicationId the publiblication identifier
      * @param string $mainKey the main key
@@ -17,7 +32,7 @@ class UrlUtil
      */
     public function getContextUrl(string $publicationId, string $mainKey, string $subKey, string $languageCode, int $articleIndex)
     {
-        return "/context/" . $publicationId . "/" . $mainKey . "/" . $subKey . "/" . $languageCode . "/" . $articleIndex;
+        return $this->serverUrl."/".$this->helpContext."/context/" . $publicationId . "/" . $mainKey . "/" . $subKey . "/" . $languageCode . "/" . $articleIndex;
     }
 
     /**
@@ -26,10 +41,10 @@ class UrlUtil
      * @param string $srcPublicationId the identifier of the publication
      * @return string the url for a edc document
      */
-    public function getDocumentationUrl(int  $id, string $languageCode = "", string $srcPublicationId = "")
+    public function getDocumentationUrl(int $id, string $languageCode = "", string $srcPublicationId = "")
     {
         $langCode = StringUtils::isNotBlank($languageCode) ? "/" . $languageCode : "";
         $publicationId = StringUtils::isNotBlank($srcPublicationId) ? $srcPublicationId . "/" : "";
-        return "/doc/" . $publicationId . $id . $langCode;
+        return $this->serverUrl."/".$this->helpContext."/doc/" . $publicationId . $id . $langCode;
     }
 }

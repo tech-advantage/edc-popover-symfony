@@ -16,6 +16,27 @@ To add the plugin in your application, type:
 compose require techad/edc-popover-bundle
 ```
 
+### Define the configuration
+
+To configure, you have to add a file in your packages folder (config/packages) named edc.yaml
+
+```yaml
+techad_edc_popover:
+  server:
+    url: 'http://my-app'
+    help_context: "help"
+  popover:
+    summary: true
+```
+
+Override only the value you want to modify.
+
+| Node | Properties | Default | Description |
+|--|--|--|--|
+| server | url | http://localhost | the edc web help url |
+| server | help_context | help | the url context |
+| popover | summary | true | the popover will be displayed on click |
+
 ## Create your environment
 
 ### Install the environment

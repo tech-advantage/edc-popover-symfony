@@ -7,32 +7,32 @@ class UrlUtilTest extends TestCase
 {
     public function testShouldGetContextUrl()
     {
-        $urlUtil = new UrlUtil();
+        $urlUtil = new UrlUtil("http://localhost", "help");
         $url = $urlUtil->getContextUrl("pId", "mk", "sk", "en", 0);
-        $this->assertEquals("/context/pId/mk/sk/en/0", $url);
+        $this->assertEquals("http://localhost/help/context/pId/mk/sk/en/0", $url);
     }
 
     public function testShouldGetDocumentationUrlForId() {
-        $urlUtil = new UrlUtil();
+        $urlUtil = new UrlUtil("http://localhost", "help");
         $url = $urlUtil->getDocumentationUrl(1);
-        $this->assertEquals("/doc/1", $url);
+        $this->assertEquals("http://localhost/help/doc/1", $url);
     }
 
     public function testShouldGetDocumentationUrlForIdAndLanguageCode() {
-        $urlUtil = new UrlUtil();
+        $urlUtil = new UrlUtil("http://localhost", "help");
         $url = $urlUtil->getDocumentationUrl(1, "en");
-        $this->assertEquals("/doc/1/en", $url);
+        $this->assertEquals("http://localhost/help/doc/1/en", $url);
     }
 
     public function testShouldGetDocumentationUrlForIdAndPublication() {
-        $urlUtil = new UrlUtil();
+        $urlUtil = new UrlUtil("http://localhost", "help");
         $url = $urlUtil->getDocumentationUrl(1, "", "pId");
-        $this->assertEquals("/doc/pId/1", $url);
+        $this->assertEquals("http://localhost/help/doc/pId/1", $url);
     }
 
     public function testShouldGetDocumentationUrlForIdAndLanguageCodedAndPublication() {
-        $urlUtil = new UrlUtil();
+        $urlUtil = new UrlUtil("http://localhost", "help");
         $url = $urlUtil->getDocumentationUrl(1, "en", "pId");
-        $this->assertEquals("/doc/pId/1/en", $url);
+        $this->assertEquals("http://localhost/help/doc/pId/1/en", $url);
     }
 }

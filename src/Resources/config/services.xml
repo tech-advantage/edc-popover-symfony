@@ -5,6 +5,9 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Techad\EdcPopoverBundle\Service\UrlUtil" public="false"/>
+        <service id="Techad\EdcPopoverBundle\Service\UrlUtil" public="false">
+            <argument key="$serverUrl">%edc_popover.server_url%</argument>
+            <argument key="$helpContext">%edc_popover.help_context%</argument>
+        </service>
     </services>
 </container>
