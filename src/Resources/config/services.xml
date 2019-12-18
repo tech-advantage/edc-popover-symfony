@@ -5,9 +5,17 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Techad\EdcPopoverBundle\Service\UrlUtil" public="false">
-            <argument key="$serverUrl">%edc_popover.server_url%</argument>
-            <argument key="$helpContext">%edc_popover.help_context%</argument>
+        <service id="techad_edc_popover.service_url_util" class="Techad\EdcPopoverBundle\Service\UrlUtil"
+                 public="false">
+            <argument key="$serverUrl">%edc_popover.server.url%</argument>
+            <argument key="$helpContext">%edc_popover.server.help_context%</argument>
+        </service>
+        <service id="Techad\EdcPopoverBundle\Service\DocumentationReader" public="false">
+            <argument type="service" id="techad_edc_popover.service_url_util"/>
+            <argument key="$defaultLanguageCode">%edc_popover.popover.default_language%</argument>
+        </service>
+        <service id="techad_edc_popover.service_key_util" class="Techad\EdcPopoverBundle\Service\DocumentationReader"
+                 public="false">
         </service>
     </services>
 </container>
