@@ -21,8 +21,13 @@ class EdcPopoverExtension extends Extension
          // Define server parameters
         if (array_key_exists('server', $config)) {
             $serverConfigs = $config['server'];
-            $container->setParameter('edc_popover.server_url', $serverConfigs['url']);
-            $container->setParameter('edc_popover.help_context', $serverConfigs['help_context']);
+            $container->setParameter('edc_popover.server.url', $serverConfigs['url']);
+            $container->setParameter('edc_popover.server.help_context', $serverConfigs['help_context']);
+        }
+        // define the popover parameters
+        if (array_key_exists('popover', $config)) {
+            $popoverConfigs = $config['popover'];
+            $container->setParameter('edc_popover.popover.default_language', $popoverConfigs['default_language']);
         }
     }
 
