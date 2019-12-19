@@ -23,16 +23,14 @@ class DocumentationReader
 
     private $urlUtil;
     private $keyUtil;
-    private $defaultLanguageCode;
 
     /**
      * DocumentationReader constructor.
      */
-    public function __construct(UrlUtil $urlUtil, KeyUtil $keyUtil, string $defaultLanguageCode)
+    public function __construct(UrlUtil $urlUtil, KeyUtil $keyUtil)
     {
         $this->urlUtil = $urlUtil;
         $this->keyUtil = $keyUtil;
-        $this->defaultLanguageCode = $defaultLanguageCode;
     }
 
     /**
@@ -77,10 +75,7 @@ class DocumentationReader
         $url = $this->urlUtil->getRootDocumentationUrl($publicationId . "/" . DocumentationReader::INFO_FILE);
         $result = $this->get($url);
         $info = new Information();
-        $defaultLanguage = $this->defaultLanguageCode;
-        if (!empty($result['defaultLanguage'])) {
-            $defaultLanguage = $result['defaultLanguage'];
-        }
+        $defaultLanguage = $result['defaultLanguage'];
         $info->setDefaultLanguage($defaultLanguage);
         if (!empty($result['languages'])) {
             $info->addLanguages($result['languages']);

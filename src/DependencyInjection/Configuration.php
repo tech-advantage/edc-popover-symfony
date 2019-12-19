@@ -38,7 +38,6 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('popover')
             ->children()
             ->booleanNode('summary')->defaultTrue()->info('the context url for the web help')->end()
-            ->scalarNode('default_language')->defaultValue('en')->info('the default language')->end()
             ->end()
             ->end()
             ->end();

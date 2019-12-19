@@ -27,7 +27,7 @@ class EdcPopoverExtension extends Extension
         // define the popover parameters
         if (array_key_exists('popover', $config)) {
             $popoverConfigs = $config['popover'];
-            $container->setParameter('edc_popover.popover.default_language', $popoverConfigs['default_language']);
+            $container->setParameter('edc_popover.popover.summary', $popoverConfigs['summary']);
         }
     }
 

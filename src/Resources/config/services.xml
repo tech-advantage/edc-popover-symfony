@@ -19,14 +19,12 @@
 
         <service id="techad_edc_popover.service_documentation_reader"
                  class="Techad\EdcPopoverBundle\Service\DocumentationReader" public="true" autowire="true">
-            <argument key="$defaultLanguageCode">%edc_popover.popover.default_language%</argument>
         </service>
         <service id="Techad\EdcPopoverBundle\Service\DocumentationReader"
                  alias="techad_edc_popover.service_documentation_reader"/>
 
         <service id="techad_edc_popover.service_edc_help" class="Techad\EdcPopoverBundle\Service\EdcHelp" public="true"
                  autowire="true">
-            <argument key="$defaultLanguageCode">%edc_popover.popover.default_language%</argument>
         </service>
         <service id="Techad\EdcPopoverBundle\Service\EdcHelp" alias="techad_edc_popover.service_edc_help"/>
     </services>
