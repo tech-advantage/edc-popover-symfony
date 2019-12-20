@@ -80,43 +80,6 @@ class EdcHelp
         return $this->documentationReader->getInformations();
     }
 
-    private function getContexts()
-    {
-        return $this->documentationReader->getContexts();
-    }
-
-    private function getLabels(array $infos)
-    {
-        // We assume the default language is common to all info (edc rules)
-        $info = $infos[0];
-        return $this->documentationReader->getLabels($info->getLanguages());
-    }
-
-    private function getLabelFromLanguage(array $labels, string $labelKey, string $languageCode)
-    {
-        $label = '';
-        if (!empty($labels[$languageCode]) && !empty($labels[$languageCode][$labelKey])) {
-            $label = $labels[$languageCode][$labelKey];
-        }
-        return $label;
-    }
-
-    private function getLabelsFromLanguage(string $languageCode): array
-    {
-        $infos = $this->getInformations();
-        $defaultLanguageCode = $this->getDefaultLanguage($infos);
-        $labels = $this->getLabels($infos);
-        $result = array();
-        if (!empty($labels[$languageCode])) {
-            $result = $labels[$languageCode];
-        } else if (!empty($labels[$defaultLanguageCode])) {
-            $result = $labels[$defaultLanguageCode];
-        }
-
-        return $result;
-    }
-
-
     private function getDefaultLanguage(array $infos): string
     {
         // We assume the default language is common to all info (edc rules)
@@ -135,6 +98,47 @@ class EdcHelp
             $language = $info->getDefaultLanguage();
         }
         return $language;
+    }
+
+    private function getContexts()
+    {
+        return $this->documentationReader->getContexts();
+    }
+
+    private function getLabelsFromLanguage(string $languageCode): array
+    {
+        $infos = $this->getInformations();
+        $defaultLanguageCode = $this->getDefaultLanguage($infos);
+        $labels = $this->getLabels($infos);
+        $result = array();
+        if (!empty($labels[$languageCode])) {
+            $result = $labels[$languageCode];
+        } else if (!empty($labels[$defaultLanguageCode])) {
+            $result = $labels[$defaultLanguageCode];
+        }
+
+        return $result;
+    }
+
+    private function getLabels(array $infos)
+    {
+        $languages = array();
+        // Merge all languages declared in infos
+        foreach ($infos as $info) {
+            $languages = array_merge($languages, $info->getLanguages());
+        }
+        // remove duplicate language
+        $languages = array_unique($languages);
+        return $this->documentationReader->getLabels($languages);
+    }
+
+    private function getLabelFromLanguage(array $labels, string $labelKey, string $languageCode)
+    {
+        $label = '';
+        if (!empty($labels[$languageCode]) && !empty($labels[$languageCode][$labelKey])) {
+            $label = $labels[$languageCode][$labelKey];
+        }
+        return $label;
     }
 
 }
