@@ -20,6 +20,8 @@ class DocumentationReader
     private const MULTI_DOC_FILE = "multi-doc.json";
     private const CONTEXT_FILE = "context.json";
     private const INFO_FILE = "info.json";
+    private const POPOVER_LABELS_PATH = "i18n/popover/";
+    private const EXTENSION = ".json";
 
     private $urlUtil;
     private $keyUtil;
@@ -57,6 +59,15 @@ class DocumentationReader
             $this->readContext($contexts, $publicationId);
         }
         return $contexts;
+    }
+
+    public function getLabels(array $languageCodes)
+    {
+        $labels = array();
+        foreach ($languageCodes as $languageCode) {
+            $this->readLabels($labels, $languageCode);
+        }
+        return $labels;
     }
 
     private function readPublicationIds()
@@ -154,6 +165,20 @@ class DocumentationReader
             $links[] = $link;
         }
         return $links;
+    }
+
+    private function readLabels(array &$labelArray, string $languageCode)
+    {
+        $url = $this->urlUtil->getRootDocumentationUrl(DocumentationReader::POPOVER_LABELS_PATH . $languageCode . DocumentationReader::EXTENSION);
+        $result = $this->get($url);
+        if (!empty($result['labels'])) {
+            $labels = $result['labels'];
+            $keys = array_keys($labels);
+            $labelArray[$languageCode] = array();
+            foreach ($keys as $key) {
+                $labelArray[$languageCode][$key] = $labels[$key];
+            }
+        }
     }
 
     private function get(string $url)

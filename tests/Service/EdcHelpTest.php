@@ -13,13 +13,55 @@ use Techad\EdcPopoverBundle\Tests\Resources\Constants;
 
 class EdcHelpTest extends TestCase
 {
-    public function testShouldGetContextItemWithForceLanguage()
+    private const MAIN_KEY = 'fr.techad.edc';
+    private const SUB_KEY = 'text_editor';
+
+
+    public function testShouldGetContextHelpWithDefinedLanguage()
     {
         $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
         $keyUtil = new KeyUtil();
         $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
         $edcHelp = new EdcHelp($documentationReader, $keyUtil);
-        $contextItem = $edcHelp->getContextItem("fr.techad.edc", "help.center", "en");
+        $contextHelp = $edcHelp->getContextHelp(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "en");
+        $contextItem = $contextHelp->getContextItem();
+        $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
+        $this->assertEquals('Need more...', $contextHelp->getLabels()['articles']);
+    }
+
+    public function testShouldGetContextHelpWithUnknownLanguage()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $contextHelp = $edcHelp->getContextHelp(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "cn");
+        $contextItem = $contextHelp->getContextItem();
+        $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
+        $this->assertEquals('Need more...', $contextHelp->getLabels()['articles']);
+    }
+
+
+    public function testShouldGetContextHelpWithDefaultLanguage()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $contextHelp = $edcHelp->getContextHelp(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY);
+        $contextItem = $contextHelp->getContextItem();
+        $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
+        $this->assertEquals('en', $contextItem->getLanguageCode());
+        $this->assertEquals('Need more...', $contextHelp->getLabels()['articles']);
+    }
+
+    public function testShouldGetContextItemWithDefinedLanguage()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $contextItem = $edcHelp->getContextItem(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "en");
         $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
     }
 
@@ -29,7 +71,7 @@ class EdcHelpTest extends TestCase
         $keyUtil = new KeyUtil();
         $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
         $edcHelp = new EdcHelp($documentationReader, $keyUtil);
-        $contextItem = $edcHelp->getContextItem("fr.techad.edc", "help.center", "cn");
+        $contextItem = $edcHelp->getContextItem(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "cn");
         $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
         $this->assertEquals('en', $contextItem->getLanguageCode());
     }
@@ -41,7 +83,7 @@ class EdcHelpTest extends TestCase
         $keyUtil = new KeyUtil();
         $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
         $edcHelp = new EdcHelp($documentationReader, $keyUtil);
-        $contextItem = $edcHelp->getContextItem("fr.techad.edc", "help.center");
+        $contextItem = $edcHelp->getContextItem(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY);
         $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
         $this->assertEquals('en', $contextItem->getLanguageCode());
     }
@@ -56,4 +98,33 @@ class EdcHelpTest extends TestCase
         $this->assertEquals(null, $contextItem);
     }
 
+    public function testShouldGetLabel()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $label = $edcHelp->getLabel('articles', 'en');
+        $this->assertEquals('Need more...', $label);
+    }
+
+    public function testShouldGetDefaultLabelWithUndefinedLanguage()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $label = $edcHelp->getLabel('articles', 'cn');
+        $this->assertEquals('Need more...', $label);
+    }
+
+    public function testShouldGetLabelWithUndefinedKey()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $label = $edcHelp->getLabel('edc', 'cn');
+        $this->assertEquals('', $label);
+    }
 }
