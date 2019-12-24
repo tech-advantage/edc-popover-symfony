@@ -1,6 +1,16 @@
+{% macro ecd_help(ContentHelp) %}
 <div>
-    {{ subKey }}
-    <a href="#" data-toggle="popover" title="EDC DOC" data-content='{{ mainKey }}'>
+    <a href="#" data-toggle="popover" title="EDC DOC" data-content='{{ ContentHelp.getLabels }}'>
         <img src="img/icon-32px.png"/>
     </a>
 </div>
+<!--needed in the header
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+-->
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
+{% endmacro edc_help %}
