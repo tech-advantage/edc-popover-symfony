@@ -1,0 +1,37 @@
+.popover-title {
+    border-bottom-color: rgb(60, 141, 188);
+    font-weight: bold;
+}
+
+.help-icon {
+    color: lightgray;
+}
+.help-icon:hover {
+    color: #3c8dbc;
+}
+
+.edc-articles-header {
+    font-size: medium;
+}
+.edc-articles-body {
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+.edc-article-link {
+    font-size: 15px;
+}
+
+.edc-links-header {
+    font-size: medium;
+}
+.edc-links-body {
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+.edc-link-link {
+    font-size: 15px;
+}
+
+.edc-popover-container ul {
+    list-style-type: disc;
+}

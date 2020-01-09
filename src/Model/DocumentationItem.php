@@ -12,6 +12,7 @@ class DocumentationItem
     private $label;
     private $publicationId;
     private $url;
+    private $webHelpUrl;
     private $languageCode;
     private $documentationItemType;
     private $articles;
@@ -89,6 +90,22 @@ class DocumentationItem
     public function setUrl($url): void
     {
         $this->url = $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebHelpUrl(): string
+    {
+        return $this->webHelpUrl;
+    }
+
+    /**
+     * @param string $webHelpUrl the web help url
+     */
+    public function setWebHelpUrl(string $webHelpUrl): void
+    {
+        $this->webHelpUrl = $webHelpUrl;
     }
 
     /**

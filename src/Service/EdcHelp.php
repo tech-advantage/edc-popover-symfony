@@ -33,7 +33,10 @@ class EdcHelp
     public function getContextHelp(string $mainKey, string $subKey, string $languageCode = ""): ?ContextHelp
     {
         $contextHelp = new ContextHelp();
-        $contextHelp->setContextItem($this->getContextItem($mainKey, $subKey, $languageCode));
+        $contextItem = $this->getContextItem($mainKey, $subKey, $languageCode);
+        if ($contextItem != null) {
+            $contextHelp->setContextItem($contextItem);
+        }
         $contextHelp->setLabels($this->getLabelsFromLanguage($languageCode));
         return $contextHelp;
     }

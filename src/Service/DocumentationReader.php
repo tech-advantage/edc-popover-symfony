@@ -130,20 +130,23 @@ class DocumentationReader
         $contextItem->setDescription($contextArray['description']);
         $contextItem->setLabel($contextArray['label']);
         $contextItem->setUrl($contextArray['url']);
+        $contextItem->setWebHelpUrl($this->urlUtil->getContextUrl($publicationId, $mainKey, $subKey, $language, 0));
         $contextItem->setPublicationId($publicationId);
-        $contextItem->addArticles($this->createArticles($publicationId, $language, $contextArray['articles']));
+        $contextItem->addArticles($this->createArticles($publicationId,  $mainKey, $subKey, $language, $contextArray['articles']));
         $contextItem->addLinks($this->createLinks($publicationId, $language, $contextArray['links']));
         return $contextItem;
     }
 
-    private function createArticles(string $publicationId, string $language, array $articleArray)
+    private function createArticles(string $publicationId, string $mainKey, string $subKey, string $language, array $articleArray)
     {
         $articles = array();
+        $index=0;
         foreach ($articleArray as $item) {
             $article = new DocumentationItem(DocumentationItemType::ARTICLE);
             $article->setId($item['id']);
             $article->setLabel($item['label']);
             $article->setUrl($item['url']);
+            $article->setWebHelpUrl($this->urlUtil->getContextUrl($publicationId, $mainKey, $subKey, $language, $index++));
             $article->setPublicationId($publicationId);
             $article->setLanguageCode($language);
             $articles[] = $article;
@@ -160,6 +163,7 @@ class DocumentationReader
             $link->setId($item['id']);
             $link->setLabel($item['label']);
             $link->setUrl($item['url']);
+            $link->setWebHelpUrl($this->urlUtil->getDocumentationUrl($item['id'], $language, $publicationId));
             $link->setPublicationId($publicationId);
             $link->setLanguageCode($language);
             $links[] = $link;

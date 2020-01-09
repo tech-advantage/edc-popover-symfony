@@ -28,11 +28,13 @@ class DocumentationReaderTest extends TestCase
         $keyUtil = new KeyUtil();
         $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
         $contexts = $documentationReader->getContexts();
-        $this->assertEquals(2, sizeof($contexts));
-        $context = $contexts['fr.techad.edc.text_editor.en'];
-        $this->assertEquals('Text Editor', $context->getLabel());
+        $this->assertEquals(8, sizeof($contexts));
+        $context = $contexts['fr.techad.edc.documentation_type.en'];
+        $this->assertEquals('Documentation Types', $context->getLabel());
+        $this->assertEquals(Constants::SERVER_URL . '/' . Constants::CONTEXT . '/context/edc/fr.techad.edc/documentation_type/en/0', $context->getWebHelpUrl());
+        $this->assertEquals(2, $context->getdocumentationItemType());
         $this->assertEquals(2, sizeof($context->getArticles()));
-        $this->assertEquals(0, sizeof($context->getLinks()));
+        $this->assertEquals(1, sizeof($context->getLinks()));
     }
 
     public function testShouldGetLabels()

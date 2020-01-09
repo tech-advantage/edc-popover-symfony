@@ -15,7 +15,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('techad_edc_popover');
         $rootNode = $treeBuilder->getRootNode();
         $this->addServerSection($rootNode);
-        $this->addPopoverSection($rootNode);
         return $treeBuilder;
     }
 
@@ -26,18 +25,6 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('url')->defaultValue('http://localhost')->info('the edc web help url')->end()
             ->scalarNode('help_context')->defaultValue("help")->info('the context url for the web help')->end()
-            ->end()
-            ->end()
-            ->end();
-    }
-
-    private function addPopoverSection(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-            ->arrayNode('popover')
-            ->children()
-            ->booleanNode('summary')->defaultTrue()->info('the context url for the web help')->end()
             ->end()
             ->end()
             ->end();

@@ -28,6 +28,7 @@ class EdcPopoverExtension extends Extension
         if (array_key_exists('popover', $config)) {
             $popoverConfigs = $config['popover'];
             $container->setParameter('edc_popover.popover.summary', $popoverConfigs['summary']);
+            $container->setParameter('edc_popover.popover.icon', $popoverConfigs['icon']);
         }
     }
 

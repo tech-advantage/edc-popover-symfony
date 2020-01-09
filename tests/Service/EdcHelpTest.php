@@ -14,10 +14,10 @@ use Techad\EdcPopoverBundle\Tests\Resources\Constants;
 class EdcHelpTest extends TestCase
 {
     private const MAIN_KEY = 'fr.techad.edc';
-    private const SUB_KEY = 'text_editor';
+    private const SUB_KEY = 'documentation_type';
 
 
-    public function testShouldGetContextHelpWithDefinedLanguage()
+    public function testShouldGetContextHelpWithEnglishLanguage()
     {
         $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
         $keyUtil = new KeyUtil();
@@ -25,8 +25,22 @@ class EdcHelpTest extends TestCase
         $edcHelp = new EdcHelp($documentationReader, $keyUtil);
         $contextHelp = $edcHelp->getContextHelp(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "en");
         $contextItem = $contextHelp->getContextItem();
+        $this->assertEquals('en', $contextItem->getLanguageCode());
         $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
         $this->assertEquals('Need more...', $contextHelp->getLabels()['articles']);
+    }
+
+    public function testShouldGetContextHelpWithFrenchLanguage()
+    {
+        $urlUtil = new UrlUtil(Constants::SERVER_URL, Constants::CONTEXT);
+        $keyUtil = new KeyUtil();
+        $documentationReader = new DocumentationReader($urlUtil, $keyUtil);
+        $edcHelp = new EdcHelp($documentationReader, $keyUtil);
+        $contextHelp = $edcHelp->getContextHelp(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "fr");
+        $contextItem = $contextHelp->getContextItem();
+        $this->assertEquals('fr', $contextItem->getLanguageCode());
+        $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
+        $this->assertEquals('Plus d\'info...', $contextHelp->getLabels()['articles']);
     }
 
     public function testShouldGetContextHelpWithUnknownLanguage()
@@ -37,10 +51,10 @@ class EdcHelpTest extends TestCase
         $edcHelp = new EdcHelp($documentationReader, $keyUtil);
         $contextHelp = $edcHelp->getContextHelp(EdcHelpTest::MAIN_KEY, EdcHelpTest::SUB_KEY, "cn");
         $contextItem = $contextHelp->getContextItem();
+        $this->assertEquals('en', $contextItem->getLanguageCode());
         $this->assertEquals('fr.techad.edc', $contextItem->getMainKey());
         $this->assertEquals('Need more...', $contextHelp->getLabels()['articles']);
     }
-
 
     public function testShouldGetContextHelpWithDefaultLanguage()
     {
