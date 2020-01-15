@@ -35,50 +35,6 @@ Override only the value you want to modify.
 | server | url | http://localhost | the edc web help url |
 | server | help_context | help | the url context |
 
-### Add the contextual documentation in your web page
-
-### Add Boostrap and JQuery in your application
-
-You have to add Bootstrap and JQuery in the head of your template. 
-
-**Warning**: The bootstrap and popover have to be include before the first call of edc popover else the popover will not display
-
-For example
-```twig
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    {% block stylesheets %}
-        <!-- Bootstrap 4 -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-        <!-- Edc Popover -->
-        <link rel="stylesheet" href="{{ asset('bundles/edcpopover/css/edc-popover.css') }}"/>
-    {% endblock %}
-    {% block javascripts_head %}
-        <!-- JQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <!-- Bootstrap and the Popover -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <!-- Edc Popover -->
-        <script src="{{ asset('bundles/edcpopover/js/edc-popover.js') }}"></script>
-    {% endblock %}
-
-</head>
-<body>
-% block body %}
-{% endblock %}
-% block javascripts %}
-{% endblock %}
-</body>
-</html>
-```
-
 ### Get the contextual documentation in the Controller
 
 To get the contextual documentation (brick help), you have to call the method:
@@ -130,7 +86,55 @@ class IndexController extends AbstractController
 }
 ```
 
-#### Add the popover in your web page
+### Add the popover in your web page
+
+#### First possibility
+
+This solution is the easiest because you declare the contextual help with one call. The code merge the HTML and Javascript in one place.
+
+##### Add Boostrap and JQuery in your application
+
+You have to add Bootstrap and JQuery in the head of your template. 
+
+**Warning**: The bootstrap and popover have to be include before the first call of edc popover else the popover will not display
+
+**Example**
+
+```twig
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    {% block stylesheets %}
+        <!-- Bootstrap 4 -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <!-- Edc Popover -->
+        <link rel="stylesheet" href="{{ asset('bundles/edcpopover/css/edc-popover.css') }}"/>
+    {% endblock %}
+    {% block javascripts_head %}
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Bootstrap and the Popover -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <!-- Edc Popover -->
+        <script src="{{ asset('bundles/edcpopover/js/edc-popover.js') }}"></script>
+    {% endblock %}
+
+</head>
+<body>
+% block body %}
+{% endblock %}
+% block javascripts %}
+{% endblock %}
+</body>
+</html>
+```
+##### Edit the twig
 
 You have to import the edc popover macro in your page:
 
@@ -162,6 +166,102 @@ My functionality {{ popover.edc_help(contextHelp) }}
     </div>
 {% endblock %}
 
+```
+
+#### Second  possibility
+
+This second solution is a little more complicated but is the most efficient way to load pages. This approach relies on 2 calls to the macro to separate HTML and Javascript.
+
+##### Add Boostrap and JQuery in your application
+
+You have to add Bootstrap and JQuery in your template page in javascript block (or declare it in encore). 
+
+**Warning**: The bootstrap and popover have to be include before the first call of edc popover else the popover will not display
+
+**Example**
+
+```twig
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+        {% block stylesheets %}
+            <!-- Bootstrap 4 -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+            <!-- Edc Popover -->
+            <link rel="stylesheet" href="{{ asset('bundles/edcpopover/css/edc-popover.css') }}"/>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+
+        {% block javascripts %}
+            <!-- JQuery -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <!-- Bootstrap and the Popover -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            <!-- Edc Popover -->
+            <script src="{{ asset('bundles/edcpopover/js/edc-popover.js') }}"></script>
+        {% endblock %}
+
+        {# block to declare the popover #}
+        {% block edcpopover %}
+        {% endblock %}
+    </body>
+</html>
+```
+
+##### Edit the twig
+
+You have to import the edc popover macro in your page:
+
+```php
+{%  import "@EdcPopover/popover/edc-popover.html.twig" as popover %}
+```
+
+Then insert the HTML popover part in your page:
+
+```twig
+<div>
+My functionality {{ popover.edc_help_html(contextHelp) }}
+</div>
+```
+
+And the Javascript part in the dedicated block:
+
+```twig
+{% block edcpopover %}
+    {{ popover.edc_help_javascript(docContextHelp) }}
+{% endblock %}
+```
+
+**Example**
+
+```twig
+% extends "base.html.twig" %}
+{%  import "@EdcPopover/popover/edc-popover.html.twig" as popover %}
+{% block title %}edc Example{% endblock %}
+
+{# The body content #}
+{% block body %}
+    <h1 class="title"><img src="{{ asset('assets/edc.png') }}"></h1>
+    
+    <div>
+        This is an example to add the edc popover in your page.<br/>
+        The help -> {{ popover.edc_help_html(contextHelp) }}
+    </div>
+{% endblock %}
+
+{# Declare each popover for the javascript #}
+{% block edcpopover %}
+    {{ popover.edc_help_javascript(docContextHelp) }}
+{% endblock %}
 ```
 
 ### Customise the popover
