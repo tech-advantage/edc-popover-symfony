@@ -1,5 +1,5 @@
 # edc-popover-symfony
-Popover for Symfony project
+Popover for Symfony project based on Bootstrap Popover 4 and JQuery 3+.
 
 ## Prequisite
 
@@ -36,6 +36,48 @@ Override only the value you want to modify.
 | server | help_context | help | the url context |
 
 ### Add the contextual documentation in your web page
+
+### Add Boostrap and JQuery in your application
+
+You have to add Bootstrap and JQuery in the head of your template. 
+
+**Warning**: The bootstrap and popover have to be include before the first call of edc popover else the popover will not display
+
+For example
+```twig
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    {% block stylesheets %}
+        <!-- Bootstrap 4 -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <!-- Edc Popover -->
+        <link rel="stylesheet" href="{{ asset('bundles/edcpopover/css/edc-popover.css') }}"/>
+    {% endblock %}
+    {% block javascripts_head %}
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Bootstrap and the Popover -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <!-- Edc Popover -->
+        <script src="{{ asset('bundles/edcpopover/js/edc-popover.js') }}"></script>
+    {% endblock %}
+
+</head>
+<body>
+% block body %}
+{% endblock %}
+% block javascripts %}
+{% endblock %}
+</body>
+</html>
+```
 
 ### Get the contextual documentation in the Controller
 
@@ -261,4 +303,5 @@ composer require techad/edc-popover-bundle
 **Copy the assets from this bundle to your application**
 
 If you add or edit the content of the folder: public (css file for example), you have to update the assets copy with `symfony console assets:install` or `php bin/console assets:install`
+
 **Warning**: This command has to be type in the root folder of your application.

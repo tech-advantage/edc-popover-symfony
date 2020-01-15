@@ -3,10 +3,11 @@
     {% set contextItem = contentHelp.contextItem %}
     {# Define the key according to the contextItem is defined or not #}
     {% if contextItem %}
-        {% set rel = ['popover-',contextItem.mainKey, '-', contextItem.subKey]|join %}
+        {% set keyPopover = ['popover-',contextItem.mainKey, '-', contextItem.subKey]|join|replace({'.':'-'}) %}
     {% else %}
-        {% set rel = 'popover' %}
+        {% set keyPopover = 'popover' %}
     {% endif %}
+    {% set contentKeyPopover = ['content-', keyPopover]|join %}
     {# Set the default configuration for the popover #}
     {% set edc_summary = true %}
     {% set edc_icon = 'fa fa-question-circle' %}
@@ -44,53 +45,55 @@
         {% endif %}
     {% endif %}
     {% if edc_summary %}
-        <a href="javascript: void(0)" id="{{ rel }}" rel="{{ rel }}"
-           data-content="
-    <div>
-    {% if contextItem %}
-        <div class='edc-desc'>{{ contextItem.description }}</div>
-        {% if contextItem.articles|length > 0 %}
-            <div class='edc-articles'>
-                <div class='edc-articles-header'>{{ contentHelp.labels['articles'] }}</div>
-                <div class='edc-articles-body'>
-                    <ul>
-                        {% for article in contextItem.articles %}
-                            <li><a href='{{ article.webHelpUrl }}'
-                                   target='edc-help'><span class='edc-article-link'>{{ article.label|e }}</span></a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-        {% if contextItem.links|length > 0 %}
-            <div class='edc-links'>
-                <div class='edc-links-header'>{{ contentHelp.labels['links'] }}</div>
-                <div class='edc-links-body'>
-                    <ul>    {% for link in contextItem.links %}
-                            <li><a href='{{ link.webHelpUrl }}'
-                                   target='edc-help'><span class='edc-link-link'>{{ link.label|e }}</span></a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-    {% endif %}
-    </div>">
+        <a href="javascript: void(0)" id="{{ keyPopover }}" rel="{{ keyPopover }}">
             <i class="{{ edc_icon }} edc-icon" aria-hidden="true"></i>
         </a>
+        <!-- Content for Popover: -->
+        <div id="{{ contentKeyPopover }}" style="display:none">
+            <div>
+                {% if contextItem %}
+                    <div class='edc-desc'>{{ contextItem.description }}</div>
+                    {% if contextItem.articles|length > 0 %}
+                        <div class='edc-articles'>
+                            <div class='edc-articles-header'>{{ contentHelp.labels['articles'] }}</div>
+                            <div class='edc-articles-body'>
+                                <ul>
+                                    {% for article in contextItem.articles %}
+                                        <li><a href='{{ article.webHelpUrl }}'
+                                               onclick="goToEdcUrl('{{ article.webHelpUrl }}')"
+                                               target='edc-help'><span
+                                                        class='edc-article-link'>{{ article.label|e }}</span></a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if contextItem.links|length > 0 %}
+                        <div class='edc-links'>
+                            <div class='edc-links-header'>{{ contentHelp.labels['links'] }}</div>
+                            <div class='edc-links-body'>
+                                <ul>
+                                    {% for link in contextItem.links %}
+                                        <li><a href='{{ link.webHelpUrl }}'
+                                               onclick="goToEdcUrl('{{ link.webHelpUrl }}')"
+                                               target='edc-help'><span
+                                                        class='edc-link-link'>{{ link.label|e }}</span></a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
         <script>
-            $(document).ready(function () {
-                $('[rel="{{ rel }}"]').popover({
-                    html: true,
-                    placement: '{{ edc_placement }}',
-                    trigger: '{{ edc_trigger }}',
-                    animation: '{{ edc_animation }}',
-                    container: '{{ edc_container }}',
-                    boundary: 'window',
-                    delay: {'show': {{ edc_delay_show }}, 'hide': {{ edc_delay_hide }}},
-                    title: '{% if contextItem %}{{ contextItem.label }}{% else %}No defined{% endif %}'
-                });
-            });
+            $(document).ready(
+                configureEdcPopover(
+                    '{{ keyPopover }}', '{{ edc_placement }}', '{{ edc_trigger }}',
+                    {{ edc_animation }}, '{{ edc_container }}', {{ edc_delay_show }}, {{ edc_delay_hide }},
+                    '{% if contextItem %}{{ contextItem.label }}{% else %}No defined{% endif %}',
+                    '{{ contentKeyPopover }}')
+            );
         </script>
     {% elseif contextItem %}
         <a href='{{ contextItem.webHelpUrl }}'
