@@ -43,7 +43,10 @@ class DocumentationReader
         $informations = array();
         $publicationsIds = $this->readPublicationIds();
         foreach ($publicationsIds as $publicationId) {
-            $informations[] = $this->readInfoFile($publicationId);
+            $information = $this->readInfoFile($publicationId);
+            if (!empty($information)) {
+                $informations[] = $information;
+            }
         }
         return $informations;
     }
@@ -76,21 +79,27 @@ class DocumentationReader
         $multiDocUrl = $this->urlUtil->getRootDocumentationUrl(DocumentationReader::MULTI_DOC_FILE);
         $array = $this->get($multiDocUrl);
         foreach ($array as $docFile) {
-            $publicationIds[] = $docFile['pluginId'];
+            if (!empty($docFile['pluginId'])) {
+                $publicationIds[] = $docFile['pluginId'];
+            }
         }
         return $publicationIds;
     }
 
-    private function readInfoFile(string $publicationId): Information
+    private function readInfoFile(string $publicationId): ?Information
     {
         $url = $this->urlUtil->getRootDocumentationUrl($publicationId . "/" . DocumentationReader::INFO_FILE);
         $result = $this->get($url);
-        $info = new Information();
-        $defaultLanguage = $result['defaultLanguage'];
-        $info->setDefaultLanguage($defaultLanguage);
-        if (!empty($result['languages'])) {
-            $info->addLanguages($result['languages']);
+        $info = null;
+        if (!empty($result['defaultLanguage'])) {
+            $info = new Information();
+            $defaultLanguage = $result['defaultLanguage'];
+            $info->setDefaultLanguage($defaultLanguage);
+            if (!empty($result['languages'])) {
+                $info->addLanguages($result['languages']);
+            }
         }
+
         return $info;
     }
 
@@ -132,7 +141,7 @@ class DocumentationReader
         $contextItem->setUrl($contextArray['url']);
         $contextItem->setWebHelpUrl($this->urlUtil->getContextUrl($publicationId, $mainKey, $subKey, $language, 0));
         $contextItem->setPublicationId($publicationId);
-        $contextItem->addArticles($this->createArticles($publicationId,  $mainKey, $subKey, $language, $contextArray['articles']));
+        $contextItem->addArticles($this->createArticles($publicationId, $mainKey, $subKey, $language, $contextArray['articles']));
         $contextItem->addLinks($this->createLinks($publicationId, $language, $contextArray['links']));
         return $contextItem;
     }
@@ -140,7 +149,7 @@ class DocumentationReader
     private function createArticles(string $publicationId, string $mainKey, string $subKey, string $language, array $articleArray)
     {
         $articles = array();
-        $index=0;
+        $index = 0;
         foreach ($articleArray as $item) {
             $article = new DocumentationItem(DocumentationItemType::ARTICLE);
             $article->setId($item['id']);
@@ -192,22 +201,11 @@ class DocumentationReader
         try {
             $response = $client->request('GET', $url);
             $array = $response->toArray(true);
-
         } catch (TransportExceptionInterface $e) {
-            $array[] = $e->getMessage();
-            $array[] = $url;
         } catch (ClientExceptionInterface $e) {
-            $array[] = $e->getMessage();
-            $array[] = $url;
         } catch (DecodingExceptionInterface $e) {
-            $array[] = $e->getMessage();
-            $array[] = $url;
         } catch (RedirectionExceptionInterface $e) {
-            $array[] = $e->getMessage();
-            $array[] = $url;
         } catch (ServerExceptionInterface $e) {
-            $array[] = $e->getMessage();
-            $array[] = $url;
         }
         return $array;
     }

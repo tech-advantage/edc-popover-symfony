@@ -86,19 +86,21 @@ class EdcHelp
     private function getDefaultLanguage(array $infos): string
     {
         // We assume the default language is common to all info (edc rules)
-        return $infos[0]->getDefaultLanguage();
+        return !empty($infos[0]) ? $infos[0]->getDefaultLanguage() : 'en';
     }
 
     private function getLanguage(string $languageCode, array $infos): string
     {
         // We assume the default language is common to all info (edc rules)
-        $info = $infos[0];
         $language = $languageCode;
         if (StringUtils::isBlank($languageCode)) {
-            $language = $info->getDefaultLanguage();
+            $language = $this->getDefaultLanguage($infos);
         }
-        if (!in_array($languageCode, $info->getLanguages())) {
-            $language = $info->getDefaultLanguage();
+        else if (!empty( $infos[0])) {
+            $info = $infos[0];
+            if (!in_array($languageCode, $info->getLanguages())) {
+                 $language = $info->getDefaultLanguage();
+            }
         }
         return $language;
     }
