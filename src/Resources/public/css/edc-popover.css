@@ -1,37 +1,48 @@
-.popover-title {
-    border-bottom-color: rgb(60, 141, 188);
-    font-weight: bold;
-}
-
-.help-icon {
+/* Help icon */
+.edc-icon {
     color: lightgray;
 }
-.help-icon:hover {
+.edc-icon:hover {
     color: #3c8dbc;
 }
 
+/* Title header */
+.popover-header {
+    border-bottom-color: rgb(60, 141, 188);
+    font-weight: bold;
+    border-bottom-width: 2px;
+}
+
+/* Description */
+.edc-desc {
+    font-size: 15px;
+}
+
+/* Articles (Need more...) */
 .edc-articles-header {
-    font-size: medium;
+    padding-top: 8px;
+    font-size: 13px;
+    font-weight: bold;
 }
 .edc-articles-body {
-    font-size: 14px;
-    padding-bottom: 10px;
+    font-size: 13px;
 }
 .edc-article-link {
-    font-size: 15px;
+    font-size: 13px;
 }
 
+/* Links (Related topics) */
 .edc-links-header {
-    font-size: medium;
+    padding-top: 5px;
+    font-size: 13px;
+    font-weight: bold;
 }
 .edc-links-body {
-    font-size: 14px;
-    padding-bottom: 10px;
+    font-size: 13px;
 }
 .edc-link-link {
-    font-size: 15px;
+    font-size: 13px;
 }
-
 .edc-popover-container ul {
     list-style-type: disc;
 }
