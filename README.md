@@ -1,5 +1,12 @@
 # edc-popover-symfony
-Popover for Symfony project based on Bootstrap Popover 4 and JQuery 3+.
+
+The popover for Symfony shows the published documentation from [edc](https://www.easydoccontents.com "Easy Doc Contents") developed by TECH advantage.
+
+This project is based on Bootstrap Popover 4 and JQuery 3+.
+
+## edc Version
+
+Current release is compatible with edc v3.0+
 
 ## Prequisite
 
@@ -366,13 +373,14 @@ If you want to include the edc popover under development in your application to 
 In **composer.json**, you have to add:
 
 ```json
-
+{
     "repositories": [
         {
             "type": "path",
             "url": "../edc-popover-symfony"
         }
     ]
+}
 ``` 
 And add the plugin in your application with the command:
     
@@ -405,3 +413,7 @@ composer require techad/edc-popover-bundle
 If you add or edit the content of the folder: public (css file for example), you have to update the assets copy with `symfony console assets:install` or `php bin/console assets:install`
 
 **Warning**: This command has to be type in the root folder of your application.
+
+## License
+
+MIT

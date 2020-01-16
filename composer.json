@@ -4,7 +4,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "keywords": ["edc", "popover", "help", "documentation", "user guide"],
-    "homepage": "https://www.easydoccontents.com",
+    "homepage": "https://github.com/tech-advantage/edc-popover-symfony",
     "authors": [
         {
             "name": "tech advantage",
