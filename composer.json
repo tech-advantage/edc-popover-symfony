@@ -3,21 +3,23 @@
     "description": "edc Popover for Symfony",
     "type": "symfony-bundle",
     "license": "MIT",
+    "keywords": ["edc", "popover", "help", "documentation", "user guide"],
+    "homepage": "https://www.easydoccontents.com",
     "authors": [
         {
             "name": "tech advantage",
-            "email": "contact@tech-advantage.com"
+            "email": "info@easydoccontents.com"
         }
     ],
     "require": {
         "php": "^7.1.3",
         "florianwolters/component-core-stringutils": "^0.4.0",
         "symfony/framework-bundle": "4.4.*",
-        "symfony/http-client": "^5.0",
+        "symfony/http-client": "4.4.*",
         "symfony/twig-pack": "*"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.0",
+        "symfony/phpunit-bridge": "4.4.*",
         "phpunit/phpunit": "8.5.0"
     },
     "autoload": {
