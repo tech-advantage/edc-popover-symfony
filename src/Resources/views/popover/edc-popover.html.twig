@@ -40,9 +40,8 @@
                             <div class='edc-articles-body'>
                                 <ul>
                                     {% for article in contextItem.articles %}
-                                        <li><a href='{{ article.webHelpUrl }}'
-                                               onclick="goToEdcUrl('{{ article.webHelpUrl }}')"
-                                               target='edc-help'><span
+                                        <li><a href='javascript: void(0)'
+                                               onclick="goToEdcUrl('{{ article.webHelpUrl }}')"><span
                                                         class='edc-article-link'>{{ article.label|e }}</span></a></li>
                                     {% endfor %}
                                 </ul>
@@ -55,9 +54,8 @@
                             <div class='edc-links-body'>
                                 <ul>
                                     {% for link in contextItem.links %}
-                                        <li><a href='{{ link.webHelpUrl }}'
-                                               onclick="goToEdcUrl('{{ link.webHelpUrl }}')"
-                                               target='edc-help'><span
+                                        <li><a  href='javascript: void(0)'
+                                               onclick="goToEdcUrl('{{ link.webHelpUrl }}')"><span
                                                         class='edc-link-link'>{{ link.label|e }}</span></a></li>
                                     {% endfor %}
                                 </ul>
@@ -68,8 +66,9 @@
             </div>
         </div>
     {% elseif contextItem %}
-        <a href='{{ contextItem.webHelpUrl }}'
-           target='edc-help'><i class="{{ edc_icon }} edc-icon" aria-hidden="true"></i></a>
+        <a  href='javascript: void(0)' onclick="goToEdcUrl('{{ contextItem.webHelpUrl }}')">
+            <i class="{{ edc_icon }} edc-icon" aria-hidden="true"></i>
+        </a>
     {% else %}
         <i class="{{ edc_icon }} edc-icon" aria-hidden="true"></i>
     {% endif %}
