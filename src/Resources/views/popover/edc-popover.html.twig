@@ -54,7 +54,7 @@
                             <div class='edc-links-body'>
                                 <ul>
                                     {% for link in contextItem.links %}
-                                        <li><a  href='javascript: void(0)'
+                                        <li><a href='javascript: void(0)'
                                                onclick="goToEdcUrl('{{ link.webHelpUrl }}')"><span
                                                         class='edc-link-link'>{{ link.label|e }}</span></a></li>
                                     {% endfor %}
@@ -66,7 +66,7 @@
             </div>
         </div>
     {% elseif contextItem %}
-        <a  href='javascript: void(0)' onclick="goToEdcUrl('{{ contextItem.webHelpUrl }}')">
+        <a href='javascript: void(0)' onclick="goToEdcUrl('{{ contextItem.webHelpUrl }}')">
             <i class="{{ edc_icon }} edc-icon" aria-hidden="true"></i>
         </a>
     {% else %}
@@ -83,7 +83,6 @@
     {% set edc_container = 'body' %}
     {% set edc_delay_show = 100 %}
     {% set edc_delay_hide = 100 %}
-
     {% if popover is defined %}
         {% if popover.summary is defined %}
             {% set edc_summary = popover.summary %}
@@ -94,8 +93,8 @@
         {% if popover.trigger is defined %}
             {% set edc_trigger = popover.trigger %}
         {% endif %}
-        {% if popover.animation is defined %}
-            {% set edc_animation = popover.animation %}
+        {% if popover.animation is defined and  popover.animation is empty %}
+            {% set edc_animation = 0 %}
         {% endif %}
         {% if popover.container is defined %}
             {% set edc_container = popover.container %}

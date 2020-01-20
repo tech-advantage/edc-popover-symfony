@@ -7,7 +7,7 @@ function configureEdcPopover(rel, placement, trigger, animation, container, dela
         html: true,
         placement: placement,
         trigger: trigger,
-        animation: (animation == 1),
+        animation: (animation === 1),
         container: container,
         boundary: 'window',
         delay: {'show': delay_show, 'hide': delay_hide},

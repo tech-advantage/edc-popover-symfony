@@ -343,7 +343,13 @@ http {
         root YOUR_PATH_HERE;
 
         server_name _;
-	}
+
+        # if you add our help viewer
+        location /help {
+            root YOUR_PATH_HERE;
+            try_files $uri /help/index.html;
+        }
+    }
 }
 ```
 
